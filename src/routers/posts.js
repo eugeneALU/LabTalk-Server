@@ -54,13 +54,13 @@ router.get('/groups', function(req, res, next) {
 
 // Create
 router.post('/groups', function(req, res, next) {
-    const {name} = req.body;
-    if (!name) {
+    const {groupname, username} = req.body;
+    if (!groupname || !username) {
         const err = new Error('Name are required');
         err.status = 400;
         throw err;
     }
-    groupModel.create(name).then(group => {
+    groupModel.create(groupname, username).then(group => {
         res.json(group);
     }).catch(next);
 });

@@ -5258,16 +5258,7 @@ function updateLink(linkElement, options, obj) {
 /* 23 */,
 /* 24 */,
 /* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5284,7 +5275,7 @@ function updateLink(linkElement, options, obj) {
 /* unused harmony export NavLink */
 /* unused harmony export Breadcrumb */
 /* unused harmony export BreadcrumbItem */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return Button; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Button; });
 /* unused harmony export ButtonDropdown */
 /* unused harmony export ButtonGroup */
 /* unused harmony export ButtonToolbar */
@@ -5318,13 +5309,13 @@ function updateLink(linkElement, options, obj) {
 /* unused harmony export TetherContent */
 /* unused harmony export Tooltip */
 /* unused harmony export Table */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ListGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ListGroup; });
 /* unused harmony export Form */
 /* unused harmony export FormFeedback */
 /* unused harmony export FormGroup */
 /* unused harmony export FormText */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return Input; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return InputGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return Input; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return InputGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return InputGroupAddon; });
 /* unused harmony export InputGroupButton */
 /* unused harmony export Label */
@@ -5336,7 +5327,7 @@ function updateLink(linkElement, options, obj) {
 /* unused harmony export TabPane */
 /* unused harmony export Jumbotron */
 /* unused harmony export Collapse */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ListGroupItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ListGroupItem; });
 /* unused harmony export ListGroupItemText */
 /* unused harmony export ListGroupItemHeading */
 /* unused harmony export UncontrolledAlert */
@@ -5358,6 +5349,15 @@ var _Mathround=Math.round,_Mathmin=Math.min,_Mathmax=Math.max;var commonjsGlobal
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(43)))
 
 /***/ }),
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
 /* 36 */,
 /* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -5376,7 +5376,8 @@ var _Mathround=Math.round,_Mathmin=Math.min,_Mathmax=Math.max;var commonjsGlobal
 /* unused harmony export listChats_hid */
 /* harmony export (immutable) */ __webpack_exports__["d"] = createChat_hid;
 /* harmony export (immutable) */ __webpack_exports__["l"] = changeChatroom;
-/* harmony export (immutable) */ __webpack_exports__["c"] = openHiddenChatroom;
+/* harmony export (immutable) */ __webpack_exports__["c"] = changeHiddenChatroom;
+/* unused harmony export openHiddenChatroom */
 /* harmony export (immutable) */ __webpack_exports__["b"] = closeHiddenChatroom;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_api_group_js__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_api_chat_js__ = __webpack_require__(257);
@@ -5422,7 +5423,7 @@ function listGroups(searchText) {
 
 function createGroup(name, username, searchText) {
     return function (dispatch, getState) {
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_group_js__["b" /* createGroup */])(name, username).then(function () {
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_group_js__["b" /* createGroup */])(name, username).then(function (group) {
             dispatch(listGroups(searchText));
         }).catch(function (err) {
             console.error('Error creating posts', err);
@@ -5514,6 +5515,7 @@ function createChat_hid(id, username, searchText) {
 }
 function changeChatroom(group, searchText) {
     return function (dispatch, getState) {
+        dispatch(closeHiddenChatroom());
         dispatch(changeChatroomGroup(group));
         dispatch(listChats(group.id, searchText));
     };
@@ -5536,6 +5538,13 @@ function changeChatroomGroup(group) {
     return {
         type: '@CHATROOM/CHANGE_CHATROOM',
         group: group
+    };
+}
+
+function changeHiddenChatroom(group, searchText) {
+    return function (dispatch, getState) {
+        dispatch(openHiddenChatroom());
+        dispatch(listChats_hid(group.id, searchText));
     };
 }
 
@@ -17650,7 +17659,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var React = __webpack_require__(14);
 var ReactTransitionChildMapping = __webpack_require__(397);
 
-var propTypesFactory = __webpack_require__(31);
+var propTypesFactory = __webpack_require__(32);
 var PropTypes = propTypesFactory(React.isValidElement);
 
 var emptyFunction = __webpack_require__(10);
@@ -18315,9 +18324,13 @@ var Main = function (_React$Component) {
         key: 'render',
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_5_react_redux__["a" /* Provider */],
-                { store: this.store },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_components_ChatList_jsx__["a" /* default */], null)
+                'div',
+                { className: 'main' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_5_react_redux__["a" /* Provider */],
+                    { store: this.store },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_components_ChatList_jsx__["a" /* default */], null)
+                )
             );
         }
     }]);
@@ -19281,13 +19294,14 @@ function listGroups() {
     });
 }
 
-function createGroup(name) {
+function createGroup(groupname, username) {
     var url = postBaseUrl + '/groups';
 
     console.log('Making POST request to: ' + url);
 
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, {
-        name: name
+        groupname: groupname,
+        username: username
     }).then(function (res) {
         if (res.status !== 200) throw new Error('Unexpected response code: ' + res.status);
 
@@ -19386,7 +19400,12 @@ var ChatItem = function (_React$Component) {
     function ChatItem(props) {
         _classCallCheck(this, ChatItem);
 
-        return _possibleConstructorReturn(this, (ChatItem.__proto__ || Object.getPrototypeOf(ChatItem)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ChatItem.__proto__ || Object.getPrototypeOf(ChatItem)).call(this, props));
+
+        _this.change_ts_to_time = _this.change_ts_to_time.bind(_this);
+        _this.change_ts_to_date = _this.change_ts_to_date.bind(_this);
+        _this.handle_string_length = _this.handle_string_length.bind(_this);
+        return _this;
     }
 
     _createClass(ChatItem, [{
@@ -19394,15 +19413,66 @@ var ChatItem = function (_React$Component) {
         value: function render() {
             var _props = this.props,
                 text = _props.text,
-                username = _props.username;
+                username = _props.username,
+                ts = _props.ts,
+                username_login = _props.username_login;
+
+            var TimeString = this.change_ts_to_time(ts * 1000).concat(' ', this.change_ts_to_date(ts * 1000));
+
+            var username_display = username;
+            var flex = 'd-flex flex-row';
+            var username_style = 'chat-username-other m-2';
+            var text_style = 'chat-text-other m-2';
+            if (username === username_login) {
+                username_display = 'Me';
+                text_style = 'chat-text-me m-2';
+                username_style = 'chat-username-me m-2';
+                flex = 'd-flex flex-row-reverse';
+            }
+
+            text_style = text_style.concat(' ', this.handle_string_length());
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                username,
-                ' : ',
-                text
+                'div',
+                { className: flex },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'a',
+                    { className: username_style },
+                    username_display
+                ),
+                ' ',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { title: TimeString, className: text_style },
+                    text
+                )
             );
+        }
+    }, {
+        key: 'change_ts_to_time',
+        value: function change_ts_to_time(ts) {
+            var time = new Date(ts);
+            return time.toLocaleTimeString();
+        }
+    }, {
+        key: 'change_ts_to_date',
+        value: function change_ts_to_date(ts) {
+            var time = new Date(ts);
+            return time.toLocaleDateString();
+        }
+    }, {
+        key: 'handle_string_length',
+        value: function handle_string_length() {
+            var text = this.props.text;
+
+
+            if (text.length < 5) {
+                return 's1';
+            } else if (text.length < 10) {
+                return 's2';
+            } else {
+                return 's3';
+            }
         }
     }]);
 
@@ -19411,12 +19481,14 @@ var ChatItem = function (_React$Component) {
 
 ChatItem.propTypes = {
     text: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
-    username: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+    username: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    username_login: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    ts: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number
 };
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(function (state) {
-    return _extends({}, state.chatroom);
+    return _extends({}, state.chatroom, state.chatlist);
 })(ChatItem));
 
 /***/ }),
@@ -19454,7 +19526,11 @@ var ChatItem_HID = function (_React$Component) {
     function ChatItem_HID(props) {
         _classCallCheck(this, ChatItem_HID);
 
-        return _possibleConstructorReturn(this, (ChatItem_HID.__proto__ || Object.getPrototypeOf(ChatItem_HID)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ChatItem_HID.__proto__ || Object.getPrototypeOf(ChatItem_HID)).call(this, props));
+
+        _this.change_ts_to_time = _this.change_ts_to_time.bind(_this);
+        _this.change_ts_to_date = _this.change_ts_to_date.bind(_this);
+        return _this;
     }
 
     _createClass(ChatItem_HID, [{
@@ -19462,15 +19538,65 @@ var ChatItem_HID = function (_React$Component) {
         value: function render() {
             var _props = this.props,
                 text = _props.text,
-                username = _props.username;
+                username = _props.username,
+                ts = _props.ts,
+                username_login = _props.username_login;
+
+            var TimeString = this.change_ts_to_time(ts * 1000).concat(' ', this.change_ts_to_date(ts * 1000));
+
+            var username_display = username;
+            var flex = 'd-flex flex-row';
+            var username_style = 'chat-username-other m-2';
+            var text_style = 'chat-text-other m-2';
+            if (username === username_login) {
+                username_display = 'Me';
+                text_style = 'chat-text-me m-2';
+                username_style = 'chat-username-me m-2';
+                flex = 'd-flex flex-row-reverse';
+            }
+            text_style = text_style.concat(' ', this.handle_string_length());
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                username,
-                ' : ',
-                text
+                'div',
+                { className: flex },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'a',
+                    { className: username_style },
+                    username_display
+                ),
+                ' ',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { title: TimeString, className: text_style },
+                    text
+                )
             );
+        }
+    }, {
+        key: 'change_ts_to_time',
+        value: function change_ts_to_time(ts) {
+            var time = new Date(ts);
+            return time.toLocaleTimeString();
+        }
+    }, {
+        key: 'change_ts_to_date',
+        value: function change_ts_to_date(ts) {
+            var time = new Date(ts);
+            return time.toLocaleDateString();
+        }
+    }, {
+        key: 'handle_string_length',
+        value: function handle_string_length() {
+            var text = this.props.text;
+
+
+            if (text.length < 5) {
+                return 's1';
+            } else if (text.length < 10) {
+                return 's2';
+            } else {
+                return 's3';
+            }
         }
     }]);
 
@@ -19479,12 +19605,14 @@ var ChatItem_HID = function (_React$Component) {
 
 ChatItem_HID.propTypes = {
     text: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
-    username: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+    username: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    username_login: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    ts: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number
 };
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(function (state) {
-    return _extends({}, state.chatroom_hid);
+    return _extends({}, state.chatroom_hid, state.chatlist);
 })(ChatItem_HID));
 
 /***/ }),
@@ -19495,7 +19623,7 @@ ChatItem_HID.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_components_GroupList_jsx__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_components_ChatRoom_jsx__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_components_ChatRoom_HID_jsx__ = __webpack_require__(263);
@@ -19556,14 +19684,15 @@ var ChatList = function (_React$Component) {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2_reactstrap__["b" /* Col */],
-            { xs: '5' },
+            { xs: '4' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_components_ChatRoom_jsx__["a" /* default */], null)
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2_reactstrap__["b" /* Col */],
             { xs: '4' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_components_ChatRoom_HID_jsx__["a" /* default */], null)
-          )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["b" /* Col */], { xs: '1' })
         );
       } else {
         chat_list = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -19614,7 +19743,7 @@ ChatList.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_reactstrap__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_reactstrap__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_components_ChatItem_jsx__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ChatRoom_css__ = __webpack_require__(410);
@@ -19648,6 +19777,8 @@ var ChatRoom = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (ChatRoom.__proto__ || Object.getPrototypeOf(ChatRoom)).call(this, props));
 
         _this.handle_chat_submit = _this.handle_chat_submit.bind(_this);
+        _this.handleSearchKeyPress = _this.handleSearchKeyPress.bind(_this);
+
         return _this;
     }
 
@@ -19661,11 +19792,12 @@ var ChatRoom = function (_React$Component) {
                 dispatch = _props.dispatch,
                 group = _props.group;
 
+
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_3_reactstrap__["c" /* ListGroupItem */],
+                'div',
                 { className: 'empty d-flex justify-content-center align-items-center' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
+                    'span',
                     { className: 'empty-text' },
                     'No Conversation here.'
                 )
@@ -19673,7 +19805,7 @@ var ChatRoom = function (_React$Component) {
             if (chats.length) {
                 children = chats.map(function (p) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["c" /* ListGroupItem */],
+                        'div',
                         { key: p.id, action: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_components_ChatItem_jsx__["a" /* default */], p)
                     );
@@ -19681,26 +19813,21 @@ var ChatRoom = function (_React$Component) {
             }
 
             var members = '';
-            var Members = '';
-            var groupname = 'Please Select A Group';
+            var groupname = group.name;
 
-            if (group) {
-                Members = 'MEMBERS';
-                groupname = group.name;
-                if (group.usernames) {
-                    members = group.usernames.map(function (p) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'a',
-                            { className: 'group-members ml-2', key: p.username + p.id },
-                            p.username
-                        );
-                    });
-                }
+            if (group.usernames) {
+                members = group.usernames.map(function (p) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'a',
+                        { className: 'group-members ml-2', key: p.username + p.id },
+                        p.username
+                    );
+                });
             }
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                null,
+                { className: 'chatroom' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'center',
                     null,
@@ -19716,15 +19843,16 @@ var ChatRoom = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'a',
                         { className: 'group-member mt-1' },
-                        Members
+                        'Members'
                     ),
                     members
                 ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'chat-list mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["d" /* ListGroup */],
+                        'div',
                         null,
                         children
                     )
@@ -19733,13 +19861,13 @@ var ChatRoom = function (_React$Component) {
                     'div',
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["e" /* InputGroup */],
+                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["c" /* InputGroup */],
                         null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_reactstrap__["f" /* Input */], { type: 'text', getRef: function getRef(e) {
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_reactstrap__["d" /* Input */], { type: 'text', getRef: function getRef(e) {
                                 return _this2.chatEL = e;
-                            }, placeholder: 'To Say Something ~' }),
+                            }, onKeyPress: this.handleSearchKeyPress, placeholder: 'Say Something  <Use \'@\' to open/close the dicussion room>' }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_3_reactstrap__["g" /* Button */],
+                            __WEBPACK_IMPORTED_MODULE_3_reactstrap__["e" /* Button */],
                             { color: 'info', onClick: this.handle_chat_submit },
                             'Submit'
                         )
@@ -19749,19 +19877,28 @@ var ChatRoom = function (_React$Component) {
         }
     }, {
         key: 'handle_chat_submit',
-        value: function handle_chat_submit(e) {
+        value: function handle_chat_submit() {
             if (this.chatEL.value === '@' && this.props.hiddenchatroom_open) {
                 this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["b" /* closeHiddenChatroom */])());
                 this.chatEL.value = '';
             } else if (this.chatEL.value === '@' && !this.props.hiddenchatroom_open) {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["c" /* openHiddenChatroom */])());
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["c" /* changeHiddenChatroom */])(this.props.group, ""));
                 this.chatEL.value = '@';
             } else if (this.chatEL.value.match(/^@/)) {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["d" /* createChat_hid */])(this.props.group.id, "Me", this.chatEL.value));
+                var string_input = this.chatEL.value.replace(/^@/, '');
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["d" /* createChat_hid */])(this.props.group.id, this.props.username_login, string_input));
                 this.chatEL.value = '@';
-            } else {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["e" /* createChat */])(this.props.group.id, "Me", this.chatEL.value));
+            } else if (this.chatEL.value) {
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_states_group_actions_js__["e" /* createChat */])(this.props.group.id, this.props.username_login, this.chatEL.value));
                 this.chatEL.value = '';
+            } else {}
+        }
+    }, {
+        key: 'handleSearchKeyPress',
+        value: function handleSearchKeyPress(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                this.handle_chat_submit();
             }
         }
     }]);
@@ -19772,6 +19909,7 @@ var ChatRoom = function (_React$Component) {
 ChatRoom.propTypes = {
     chats: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
     hiddenchatroom_open: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    username_login: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
     dispatch: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func
 
 };
@@ -19791,7 +19929,7 @@ ChatRoom.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_reactstrap__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_reactstrap__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_components_ChatItem_HID_jsx__ = __webpack_require__(260);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ChatRoom_HID_css__ = __webpack_require__(411);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ChatRoom_HID_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ChatRoom_HID_css__);
@@ -19828,7 +19966,7 @@ var ChatRoom_HID = function (_React$Component) {
             var chats_hid = this.props.chats_hid;
 
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_3_reactstrap__["c" /* ListGroupItem */],
+                'div',
                 { className: 'empty d-flex justify-content-center align-items-center' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -19839,7 +19977,7 @@ var ChatRoom_HID = function (_React$Component) {
             if (chats_hid.length) {
                 children = chats_hid.map(function (p) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["c" /* ListGroupItem */],
+                        'div',
                         { key: p.id, action: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_components_ChatItem_HID_jsx__["a" /* default */], p)
                     );
@@ -19855,9 +19993,9 @@ var ChatRoom_HID = function (_React$Component) {
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'chat-list' },
+                    { className: 'chat-list-hid' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["d" /* ListGroup */],
+                        'p',
                         null,
                         children
                     )
@@ -19890,7 +20028,7 @@ ChatRoom_HID.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__(0);
@@ -19967,10 +20105,19 @@ var GroupItem = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'h4',
                         { className: 'group-title' },
-                        this.props.name,
+                        this.props.name
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
-                            { className: 'ml-5', outline: true, color: 'danger', onClick: this.handleGroupDelete },
+                            __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
+                            { className: 'ml-1', outline: true, color: 'success', onClick: this.handle_addmemberbutton_toggle },
+                            'Change Members'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
+                            { className: 'ml-2', outline: true, color: 'danger', onClick: this.handleGroupDelete },
                             'Delete Group'
                         ),
                         ' '
@@ -19981,7 +20128,7 @@ var GroupItem = function (_React$Component) {
                         null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'a',
-                            { onClick: this.handle_addmemberbutton_toggle, className: 'group-member' },
+                            { onClick: this.handleGroupClick, className: 'group-member' },
                             'MEMBERS'
                         ),
                         members
@@ -20004,14 +20151,9 @@ var GroupItem = function (_React$Component) {
                                     'div',
                                     null,
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* InputGroup */],
+                                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["c" /* InputGroup */],
                                         null,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            __WEBPACK_IMPORTED_MODULE_2_reactstrap__["k" /* InputGroupAddon */],
-                                            null,
-                                            'Member Name'
-                                        ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["f" /* Input */], { type: 'text', getRef: function getRef(input) {
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["d" /* Input */], { type: 'text', getRef: function getRef(input) {
                                                 return _this2.input = input;
                                             }, placeholder: 'Enter the Members Name' })
                                     )
@@ -20021,17 +20163,17 @@ var GroupItem = function (_React$Component) {
                                 __WEBPACK_IMPORTED_MODULE_2_reactstrap__["l" /* ModalFooter */],
                                 null,
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
-                                    { color: 'primary', onClick: this.handleAddMembers },
+                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
+                                    { color: 'success', onClick: this.handleAddMembers },
                                     'Add Member'
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
-                                    { color: 'primary', onClick: this.handleDeleteMembers },
+                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
+                                    { color: 'danger', onClick: this.handleDeleteMembers },
                                     'Delete Member'
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
+                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
                                     { color: 'secondary', onClick: this.handle_addmemberbutton_toggle },
                                     'Cancel'
                                 )
@@ -20064,12 +20206,12 @@ var GroupItem = function (_React$Component) {
     }, {
         key: 'handleGroupClick',
         value: function handleGroupClick(e) {
-            var group = {
+            var obj = {
                 id: this.props.id,
                 name: this.props.name,
                 usernames: this.props.usernames
             };
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["l" /* changeChatroom */])(group, ''));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["l" /* changeChatroom */])(obj, ''));
         }
     }]);
 
@@ -20087,7 +20229,7 @@ GroupItem.propTypes = {
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(function (state) {
-    return _extends({}, state.grouplist, state.groupitem, state.chatroom);
+    return _extends({}, state.grouplist, state.groupitem, state.chatroom, state.chatlist);
 })(GroupItem));
 
 /***/ }),
@@ -20099,12 +20241,14 @@ GroupItem.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_reactstrap__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_components_GroupItem_jsx__ = __webpack_require__(264);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__GroupList_css__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__GroupList_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__GroupList_css__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20147,7 +20291,7 @@ var GroupList = function (_React$Component) {
                 groups = _props.groups;
 
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["c" /* ListGroupItem */],
+                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["f" /* ListGroupItem */],
                 { className: 'empty d-flex justify-content-center align-items-center' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -20160,7 +20304,7 @@ var GroupList = function (_React$Component) {
             if (groups.length) {
                 children = groups.map(function (p) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["c" /* ListGroupItem */],
+                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["f" /* ListGroupItem */],
                         { key: p.id, action: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_components_GroupItem_jsx__["a" /* default */], p)
                     );
@@ -20172,7 +20316,7 @@ var GroupList = function (_React$Component) {
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'group-list' },
+                    null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'center',
                         null,
@@ -20183,16 +20327,20 @@ var GroupList = function (_React$Component) {
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["d" /* ListGroup */],
-                        null,
-                        children
+                        'div',
+                        { className: 'group-list' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* ListGroup */],
+                            null,
+                            children
+                        )
                     )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'd-flex justify-content-center mt-3' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
+                        __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
                         { outline: true, color: 'info', onClick: this.handle_addgroupbutton_toggle },
                         'Create Groups +'
                     )
@@ -20215,14 +20363,14 @@ var GroupList = function (_React$Component) {
                                 'div',
                                 null,
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* InputGroup */],
+                                    __WEBPACK_IMPORTED_MODULE_2_reactstrap__["c" /* InputGroup */],
                                     null,
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         __WEBPACK_IMPORTED_MODULE_2_reactstrap__["k" /* InputGroupAddon */],
                                         null,
                                         'Group Name'
                                     ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["f" /* Input */], { type: 'text', getRef: function getRef(e) {
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["d" /* Input */], { type: 'text', getRef: function getRef(e) {
                                             return _this2.groupnameEL = e;
                                         }, placeholder: 'Enter your Group Name' })
                                 )
@@ -20232,12 +20380,12 @@ var GroupList = function (_React$Component) {
                             __WEBPACK_IMPORTED_MODULE_2_reactstrap__["l" /* ModalFooter */],
                             null,
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
+                                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
                                 { color: 'primary', onClick: this.handle_creategroup },
                                 'Create'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["g" /* Button */],
+                                __WEBPACK_IMPORTED_MODULE_2_reactstrap__["e" /* Button */],
                                 { color: 'secondary', onClick: this.handle_addgroupbutton_toggle },
                                 'Cancel'
                             )
@@ -20254,7 +20402,7 @@ var GroupList = function (_React$Component) {
     }, {
         key: 'handle_creategroup',
         value: function handle_creategroup(e) {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["g" /* createGroup */])(this.groupnameEL.value, ''));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["g" /* createGroup */])(this.groupnameEL.value, this.props.username_login, ''));
         }
     }]);
 
@@ -20264,12 +20412,13 @@ var GroupList = function (_React$Component) {
 GroupList.propTypes = {
     addgroup_modal_Toggle: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
     groups: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array,
+    username_login: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     dispatch: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func
 };
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(function (state) {
-    return state.grouplist;
+    return _extends({}, state.grouplist, state.chatlist);
 })(GroupList));
 
 /***/ }),
@@ -20423,7 +20572,8 @@ function chatroom_hid() {
 
 var initChatListState = {
 
-    hiddenchatroom_open: false
+    hiddenchatroom_open: false,
+    username_login: 'wow'
 
 };
 
@@ -22397,7 +22547,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".s1{\r\n    width: 5rem;\r\n}\r\n.s2 {\r\n    width: 10rem;\r\n}\r\n.s3{\r\n    width: 60%;\r\n}\r\n\r\n\r\n.chat-text-other {\r\n  background-color: rgb(228, 231, 247);\r\n  border: 0.5rem solid rgb(228, 231, 247);\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.chat-text-me {\r\n  background-color: rgb(228, 231, 247);\r\n  border: 0.5rem solid rgb(228, 231, 247);\r\n  border-radius: 0.5rem;\r\n  text-align: right!important;\r\n}\r\n\r\n.chat-username-other {\r\n  background-color: rgb(62, 215, 69);\r\n  border: 0.5rem solid rgb(62, 215, 69);\r\n  border-radius: 0.5rem;\r\n  color: white!important;\r\n  height: 2rem!important;\r\n}\r\n.chat-username-me {\r\n  background-color: rgb(247, 107, 88);\r\n  border: 0.5rem solid rgb(247, 107, 88);\r\n  border-radius: 0.5rem;\r\n  color: white!important;\r\n  height: 2rem!important;\r\n}\r\n", ""]);
 
 // exports
 
@@ -22411,7 +22561,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".s1{\r\n    width: 4rem;\r\n}\r\n.s2 {\r\n    width: 9rem;\r\n}\r\n.s3{\r\n    width: 60%;\r\n}\r\n.chat-text-other {\r\n  background-color: rgb(228, 231, 247);\r\n  border: 0.5rem solid rgb(228, 231, 247);\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.chat-text-me {\r\n  background-color: rgb(228, 231, 247);\r\n  border: 0.5rem solid rgb(228, 231, 247);\r\n  border-radius: 0.5rem;\r\n  text-align: right!important;\r\n}\r\n\r\n.chat-username-other {\r\n  background-color: rgb(62, 215, 69);\r\n  border: 0.5rem solid rgb(62, 215, 69);\r\n  border-radius: 0.5rem;\r\n  color: white!important;\r\n  height: 2rem!important;\r\n}\r\n.chat-username-me {\r\n  background-color: rgb(247, 107, 88);\r\n  border: 0.5rem solid rgb(247, 107, 88);\r\n  border-radius: 0.5rem;\r\n  color: white!important;\r\n  height: 2rem!important;\r\n}\r\n", ""]);
 
 // exports
 
@@ -22439,7 +22589,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n", ""]);
+exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n.chat-list {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height:28rem!important;\r\n  overflow: auto;\r\n  word-wrap:break-word;\r\n}\r\n\r\n/* Scrollbar styles */\r\n::-webkit-scrollbar {\r\nwidth: 12px;\r\nheight: 12px;\r\n}\r\n\r\n::-webkit-scrollbar-track {\r\nborder: 1px solid lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb {\r\nbackground: lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb:hover {\r\nbackground: lightgray;\r\n}\r\n", ""]);
 
 // exports
 
@@ -22453,7 +22603,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".chat-list-hid {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height: 35rem!important;\r\n  overflow: auto;\r\n  word-wrap:break-word;\r\n\r\n}\r\n", ""]);
 
 // exports
 
@@ -22481,7 +22631,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".group-list {\r\n  height:30rem!important;\r\n  overflow: auto;\r\n}\r\n", ""]);
 
 // exports
 
@@ -24069,7 +24219,7 @@ var ReactReconciler = __webpack_require__(23);
 var ReactReconcileTransaction = __webpack_require__(208);
 var ReactUpdates = __webpack_require__(13);
 
-var emptyObject = __webpack_require__(26);
+var emptyObject = __webpack_require__(27);
 var getNextDebugID = __webpack_require__(230);
 var invariant = __webpack_require__(2);
 
@@ -24218,14 +24368,14 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var EventConstants = __webpack_require__(319);
-var EventPluginHub = __webpack_require__(28);
-var EventPluginRegistry = __webpack_require__(32);
-var EventPropagators = __webpack_require__(29);
+var EventPluginHub = __webpack_require__(29);
+var EventPluginRegistry = __webpack_require__(33);
+var EventPropagators = __webpack_require__(30);
 var React = __webpack_require__(14);
 var ReactDOM = __webpack_require__(53);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactBrowserEventEmitter = __webpack_require__(33);
-var ReactInstanceMap = __webpack_require__(30);
+var ReactBrowserEventEmitter = __webpack_require__(34);
+var ReactInstanceMap = __webpack_require__(31);
 var ReactUpdates = __webpack_require__(13);
 var SyntheticEvent = __webpack_require__(15);
 var ReactShallowRenderer = __webpack_require__(353);
@@ -25297,7 +25447,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(14);
-var propTypesFactory = __webpack_require__(31);
+var propTypesFactory = __webpack_require__(32);
 var PropTypes = propTypesFactory(React.isValidElement);
 
 var ReactTransitionGroup = __webpack_require__(228);
@@ -25409,7 +25559,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var React = __webpack_require__(14);
 var ReactAddonsDOMDependencies = __webpack_require__(388);
 
-var propTypesFactory = __webpack_require__(31);
+var propTypesFactory = __webpack_require__(32);
 var PropTypes = propTypesFactory(React.isValidElement);
 
 var CSSCore = __webpack_require__(280);

@@ -22,13 +22,13 @@ function list(searchText = '') {
     });
 }
 
-function create(name) {
+function create(groupname, username) {
     return new Promise((resolve, reject) => {
         const newGroup = {
             id: uuid(),
-            name: name,
+            name: groupname,
             ts: moment().unix(),
-            usernames: []
+            usernames: [{username: username}]
         };
 
         list().then(groups => {
@@ -96,12 +96,14 @@ function deleteMembers(id, username) {
             var obj = {username: username};
             groups = groups.map(p => {
                 if (p.id === id) {
-                    p.usernames.filter(function (item) {
+                  p.usernames = p.usernames.filter(function (item) {
                         if(item.username!==this.username){
                           return true;
                         }
+                        else {
+                          return false;
+                        }
                     }, obj);
-
                 }
 
                 return p
