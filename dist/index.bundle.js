@@ -5347,7 +5347,7 @@ function updateLink(linkElement, options, obj) {
 /* unused harmony export UncontrolledTooltip */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_transition_group__ = __webpack_require__(310);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_addons_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_addons_transition_group__);
@@ -5395,6 +5395,17 @@ function toggleAddMemberModal(id) {
     return {
         type: '@GROUPITEM/TOOGLE_ADDMEMBER_MODAL',
         id: id
+    };
+}
+
+function startLoading_groupitem() {
+    return {
+        type: '@GROUPITEM/START_LOADING'
+    };
+}
+function endLoading_groupitem() {
+    return {
+        type: '@GROUPITEM/END_LOADING'
     };
 }
 
@@ -5465,8 +5476,10 @@ function deleteGroup(id, searchText) {
 
 function addMembers(id, username) {
     return function (dispatch, getState) {
+        dispatch(startLoading_groupitem());
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_group_js__["d" /* addGroupMembers */])(id, username).then(function () {
             dispatch(listGroups(''));
+            dispatch(endLoading_groupitem());
         }).catch(function (err) {
             console.error('Error Username', err);
         });
@@ -5475,8 +5488,10 @@ function addMembers(id, username) {
 
 function DeleteMembers(id, username) {
     return function (dispatch, getState) {
+        dispatch(startLoading_groupitem());
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_group_js__["e" /* deleteGroupMembers */])(id, username).then(function () {
             dispatch(listGroups(''));
+            dispatch(endLoading_groupitem());
         }).catch(function (err) {
             console.error('Error Username', err);
         });
@@ -19776,7 +19791,7 @@ ChatList.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(18);
@@ -19841,7 +19856,8 @@ var ChatRoom = function (_React$Component) {
                 chats = _props.chats,
                 dispatch = _props.dispatch,
                 group = _props.group,
-                username_login = _props.username_login;
+                username_login = _props.username_login,
+                chatroomloading = _props.chatroomloading;
 
 
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -19877,9 +19893,15 @@ var ChatRoom = function (_React$Component) {
                 });
             }
 
+            var loading = '';
+
+            if (chatroomloading) {
+                loading = '-loading';
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'chatroom' },
+                { className: 'chatroom' + loading },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'center',
                     null,
@@ -19970,6 +19992,7 @@ ChatRoom.propTypes = {
     chats: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.array,
     hiddenchatroom_open: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
     username_login: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
+    chatroomloading: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
     dispatch: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func
 
 };
@@ -19986,7 +20009,7 @@ ChatRoom.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(18);
@@ -20042,7 +20065,10 @@ var ChatRoom_HID = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            var chats_hid = this.props.chats_hid;
+            var _props = this.props,
+                chats_hid = _props.chats_hid,
+                chatroom_hidloading = _props.chatroom_hidloading;
+
 
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -20050,9 +20076,10 @@ var ChatRoom_HID = function (_React$Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'empty-text' },
-                    'No Conversation here.'
+                    '\u5C1A\u672A\u6709\u4EFB\u4F55\u5C0D\u8A71...'
                 )
             );
+
             if (chats_hid.length) {
                 children = chats_hid.map(function (p) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -20062,17 +20089,24 @@ var ChatRoom_HID = function (_React$Component) {
                     );
                 });
             }
+
+            var loading = '';
+
+            if (chatroom_hidloading) {
+                loading = '-loading';
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'h1',
                     null,
-                    'Disccusion Room'
+                    '\u8A0E\u8AD6\u5BA4'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'chat-list-hid' },
+                    { className: 'chat-list-hid' + loading },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'd-flex flex-column-reverse' },
@@ -20102,6 +20136,7 @@ var ChatRoom_HID = function (_React$Component) {
 ChatRoom_HID.propTypes = {
     chatroom_id: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
     chats_hid: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.array,
+    chatroom_hidloading: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
     dispatch: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func
 
 };
@@ -20175,7 +20210,8 @@ var GroupItem = function (_React$Component) {
                 id = _props.id,
                 usernames = _props.usernames,
                 group = _props.group,
-                username_login = _props.username_login;
+                username_login = _props.username_login,
+                groupitemloading = _props.groupitemloading;
 
             var members = '';
 
@@ -20191,12 +20227,17 @@ var GroupItem = function (_React$Component) {
             var select = '';
 
             if (group.id === id) {
-                select = 'select';
+                select = '-select';
+            }
+
+            var loading = '';
+            if (groupitemloading) {
+                loading = '-loading';
             }
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'group-item' },
+                { className: 'group-item' + loading },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { onClick: this.handleGroupClick, className: 'group-item justify-content-center align-items-center' },
@@ -20322,7 +20363,7 @@ GroupItem.propTypes = {
     name: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     usernames: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array,
     username_login: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
-    chatroom_id: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    groupitemloading: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
     dispatch: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func
 };
 
@@ -20393,7 +20434,7 @@ var GroupList = function (_React$Component) {
             var loading = '';
 
             if (groupLoading) {
-                loading = 'loading';
+                loading = '-loading';
             }
 
             var children = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -20536,7 +20577,7 @@ GroupList.propTypes = {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_components_Main_jsx__ = __webpack_require__(238);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap_dist_css_bootstrap_css__ = __webpack_require__(239);
@@ -20686,7 +20727,8 @@ function chatroom_hid() {
     switch (action.type) {
         case '@CHATROOM_HID/GET_CHATS':
             return _extends({}, state, {
-                chats_hid: action.chats
+                chats_hid: action.chats,
+                chatroom_hidloading: false
             });
         case '@CHATROOM_HID/CLEAR_CHATS':
             return _extends({}, state, {
@@ -22733,7 +22775,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n.chat-list {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height:26rem!important;\r\n  overflow-x:hidden;\r\n  overflow-y:auto;\r\n  word-wrap:break-word;\r\n}\r\n\r\n/* Scrollbar styles */\r\n::-webkit-scrollbar {\r\nwidth: 12px;\r\nheight: 12px;\r\n}\r\n\r\n::-webkit-scrollbar-track {\r\nborder: 1px solid lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb {\r\nbackground: lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb:hover {\r\nbackground: lightgray;\r\n}\r\n", ""]);
+exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n.chat-list {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height:26rem!important;\r\n  overflow-x:hidden;\r\n  overflow-y:auto;\r\n  word-wrap:break-word;\r\n}\r\n.chat-list-loading {\r\n  /*background-image: url('./image/loading.png');*/\r\n}\r\n/* Scrollbar styles */\r\n::-webkit-scrollbar {\r\nwidth: 12px;\r\nheight: 12px;\r\n}\r\n\r\n::-webkit-scrollbar-track {\r\nborder: 1px solid lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb {\r\nbackground: lightgray;\r\nborder-radius: 10px;\r\n}\r\n\r\n::-webkit-scrollbar-thumb:hover {\r\nbackground: lightgray;\r\n}\r\n", ""]);
 
 // exports
 
@@ -22747,7 +22789,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".chat-list-hid {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height: 35rem!important;\r\n  overflow: auto;\r\n  word-wrap:break-word;\r\n\r\n}\r\n", ""]);
+exports.push([module.i, ".chat-list-hid {\r\n  border:0.05rem solid lightgray;\r\n  border-radius: 0.5rem;\r\n  height: 35rem!important;\r\n  overflow: auto;\r\n  word-wrap:break-word;\r\n}\r\n\r\n.chat-list-hid-loading {\r\n  /*background-image: url('./image/loading.png');*/\r\n}\r\n", ""]);
 
 // exports
 
@@ -22761,7 +22803,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-titleselect {\r\n    color: red;\r\n}\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n\r\n.group-item:hover {\r\n  cursor: pointer;\r\n}\r\n", ""]);
+exports.push([module.i, ".group-members {\r\n  background-color: lightblue;\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-members:hover {\r\n  background-color: rgb(47, 133, 235);\r\n}\r\n\r\n.group-member {\r\n  background-color: rgb(245, 174, 116);\r\n  color: white!important;\r\n  padding: 0.5rem;\r\n  border: 0.2rem solid white;\r\n  border-radius: 0.5rem;\r\n}\r\n\r\n.group-title-select {\r\n    color: red;\r\n}\r\n.group-member:hover {\r\n   background-color: rgb(242, 192, 12);\r\n   cursor: pointer;\r\n}\r\n.group-item-loading {\r\n  background-image: url('./image/loading.png');\r\n}\r\n.group-item:hover {\r\n  cursor: pointer;\r\n}\r\n", ""]);
 
 // exports
 
@@ -22775,7 +22817,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".group-list {\r\n  height:30rem!important;\r\n  overflow-x:hidden;\r\n  overflow-y:auto;\r\n}\r\n.grouplistloading{\r\n  background-color: black;\r\n}\r\n", ""]);
+exports.push([module.i, ".group-list {\r\n  height:30rem!important;\r\n  overflow-x:hidden;\r\n  overflow-y:auto;\r\n}\r\n.grouplist-loading{\r\n  /*background-image: url('./image/loading.png');*/\r\n}\r\n", ""]);
 
 // exports
 
@@ -24363,7 +24405,7 @@ var ReactReconciler = __webpack_require__(23);
 var ReactReconcileTransaction = __webpack_require__(208);
 var ReactUpdates = __webpack_require__(13);
 
-var emptyObject = __webpack_require__(26);
+var emptyObject = __webpack_require__(27);
 var getNextDebugID = __webpack_require__(230);
 var invariant = __webpack_require__(2);
 
@@ -24512,14 +24554,14 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var EventConstants = __webpack_require__(319);
-var EventPluginHub = __webpack_require__(28);
+var EventPluginHub = __webpack_require__(29);
 var EventPluginRegistry = __webpack_require__(33);
-var EventPropagators = __webpack_require__(29);
+var EventPropagators = __webpack_require__(30);
 var React = __webpack_require__(14);
 var ReactDOM = __webpack_require__(53);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactBrowserEventEmitter = __webpack_require__(34);
-var ReactInstanceMap = __webpack_require__(30);
+var ReactInstanceMap = __webpack_require__(31);
 var ReactUpdates = __webpack_require__(13);
 var SyntheticEvent = __webpack_require__(15);
 var ReactShallowRenderer = __webpack_require__(353);
