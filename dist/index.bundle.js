@@ -5363,22 +5363,22 @@ var _Mathround=Math.round,_Mathmin=Math.min,_Mathmax=Math.max;var commonjsGlobal
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["f"] = toggleAddGroupModal;
-/* harmony export (immutable) */ __webpack_exports__["h"] = toggleAddMemberModal;
+/* harmony export (immutable) */ __webpack_exports__["h"] = toggleAddGroupModal;
+/* harmony export (immutable) */ __webpack_exports__["j"] = toggleAddMemberModal;
 /* harmony export (immutable) */ __webpack_exports__["a"] = listGroups;
-/* harmony export (immutable) */ __webpack_exports__["g"] = createGroup;
+/* harmony export (immutable) */ __webpack_exports__["i"] = createGroup;
 /* unused harmony export addGroupUser */
-/* harmony export (immutable) */ __webpack_exports__["i"] = deleteGroup;
-/* harmony export (immutable) */ __webpack_exports__["j"] = addMembers;
-/* harmony export (immutable) */ __webpack_exports__["k"] = DeleteMembers;
-/* unused harmony export listChats */
-/* harmony export (immutable) */ __webpack_exports__["e"] = createChat;
-/* unused harmony export listChats_hid */
-/* harmony export (immutable) */ __webpack_exports__["d"] = createChat_hid;
-/* harmony export (immutable) */ __webpack_exports__["l"] = changeChatroom;
-/* harmony export (immutable) */ __webpack_exports__["c"] = changeHiddenChatroom;
+/* harmony export (immutable) */ __webpack_exports__["k"] = deleteGroup;
+/* harmony export (immutable) */ __webpack_exports__["l"] = addMembers;
+/* harmony export (immutable) */ __webpack_exports__["m"] = DeleteMembers;
+/* harmony export (immutable) */ __webpack_exports__["g"] = listChats;
+/* harmony export (immutable) */ __webpack_exports__["f"] = createChat;
+/* harmony export (immutable) */ __webpack_exports__["b"] = listChats_hid;
+/* harmony export (immutable) */ __webpack_exports__["e"] = createChat_hid;
+/* harmony export (immutable) */ __webpack_exports__["n"] = changeChatroom;
+/* harmony export (immutable) */ __webpack_exports__["d"] = changeHiddenChatroom;
 /* unused harmony export openHiddenChatroom */
-/* harmony export (immutable) */ __webpack_exports__["b"] = closeHiddenChatroom;
+/* harmony export (immutable) */ __webpack_exports__["c"] = closeHiddenChatroom;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_api_group_js__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_api_chat_js__ = __webpack_require__(257);
 
@@ -19451,7 +19451,7 @@ var ChatItem = function (_React$Component) {
             var username_style = 'chat-username-other m-2';
             var text_style = 'chat-text-other m-2';
             if (username === username_login) {
-                username_display = 'Me';
+                username_display = '我';
                 text_style = 'chat-text-me m-2';
                 username_style = 'chat-username-me m-2';
                 flex = 'd-flex flex-row-reverse';
@@ -19831,9 +19831,14 @@ var ChatRoom = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ChatRoom.__proto__ || Object.getPrototypeOf(ChatRoom)).call(this, props));
 
+        _this.state = {
+            intervalId: {}
+        };
         _this.handle_chat_submit = _this.handle_chat_submit.bind(_this);
         _this.handleSearchKeyPress = _this.handleSearchKeyPress.bind(_this);
         _this.scrollToBottom = _this.scrollToBottom.bind(_this);
+        _this.inittimer = _this.inittimer.bind(_this);
+        _this.timer = _this.timer.bind(_this);
         return _this;
     }
 
@@ -19841,11 +19846,17 @@ var ChatRoom = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.scrollToBottom();
+            this.inittimer();
         }
     }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            this.scrollToBottom();
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            clearInterval(this.state.intervalId);
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.chats !== this.props.chats || nextProps.group !== this.props.group) this.scrollToBottom();
         }
     }, {
         key: 'render',
@@ -19955,17 +19966,17 @@ var ChatRoom = function (_React$Component) {
         key: 'handle_chat_submit',
         value: function handle_chat_submit() {
             if (this.chatEL.value === '@' && this.props.hiddenchatroom_open) {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["b" /* closeHiddenChatroom */])());
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["c" /* closeHiddenChatroom */])());
                 this.chatEL.value = '';
             } else if (this.chatEL.value === '@' && !this.props.hiddenchatroom_open) {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["c" /* changeHiddenChatroom */])(this.props.group, ""));
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["d" /* changeHiddenChatroom */])(this.props.group, ""));
                 this.chatEL.value = '@';
             } else if (this.chatEL.value.match(/^@/)) {
                 var string_input = this.chatEL.value.replace(/^@/, '');
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["d" /* createChat_hid */])(this.props.group.id, this.props.username_login, string_input));
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["e" /* createChat_hid */])(this.props.group.id, this.props.username_login, string_input));
                 this.chatEL.value = '@';
             } else if (this.chatEL.value) {
-                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["e" /* createChat */])(this.props.group.id, this.props.username_login, this.chatEL.value));
+                this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["f" /* createChat */])(this.props.group.id, this.props.username_login, this.chatEL.value));
                 this.chatEL.value = '';
             } else {}
         }
@@ -19982,6 +19993,23 @@ var ChatRoom = function (_React$Component) {
         value: function scrollToBottom() {
             var node = __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.findDOMNode(this.messagesEnd);
             node.scrollIntoView();
+        }
+    }, {
+        key: 'inittimer',
+        value: function inittimer() {
+            var intervalId = setInterval(this.timer, 3000);
+            this.setState({ intervalId: intervalId });
+        }
+    }, {
+        key: 'timer',
+        value: function timer() {
+            var _props2 = this.props,
+                group = _props2.group,
+                dispatch = _props2.dispatch;
+
+            if (group.id) {
+                dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["g" /* listChats */])(group.id, ''));
+            }
         }
     }]);
 
@@ -20016,8 +20044,9 @@ ChatRoom.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_reactstrap__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_components_ChatItem_HID_jsx__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ChatRoom_HID_css__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ChatRoom_HID_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ChatRoom_HID_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ChatRoom_HID_css__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ChatRoom_HID_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ChatRoom_HID_css__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -20037,6 +20066,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
 var ChatRoom_HID = function (_React$Component) {
     _inherits(ChatRoom_HID, _React$Component);
 
@@ -20045,7 +20075,13 @@ var ChatRoom_HID = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ChatRoom_HID.__proto__ || Object.getPrototypeOf(ChatRoom_HID)).call(this, props));
 
+        _this.state = {
+            intervalId: {}
+        };
+
         _this.scrollToBottom = _this.scrollToBottom.bind(_this);
+        _this.inittimer = _this.inittimer.bind(_this);
+        _this.timer = _this.timer.bind(_this);
 
         return _this;
     }
@@ -20054,11 +20090,17 @@ var ChatRoom_HID = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.scrollToBottom();
+            this.inittimer();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
             this.scrollToBottom();
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            clearInterval(this.state.intervalId);
         }
     }, {
         key: 'render',
@@ -20127,6 +20169,23 @@ var ChatRoom_HID = function (_React$Component) {
         value: function scrollToBottom() {
             var node = __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.findDOMNode(this.messagesEnd);
             node.scrollIntoView();
+        }
+    }, {
+        key: 'inittimer',
+        value: function inittimer() {
+            var intervalId = setInterval(this.timer, 3000);
+            this.setState({ intervalId: intervalId });
+        }
+    }, {
+        key: 'timer',
+        value: function timer() {
+            var _props2 = this.props,
+                group = _props2.group,
+                dispatch = _props2.dispatch;
+
+            if (group.id) {
+                dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_group_actions_js__["b" /* listChats_hid */])(group.id, ''));
+            }
         }
     }]);
 
@@ -20325,22 +20384,22 @@ var GroupItem = function (_React$Component) {
     }, {
         key: 'handle_addmemberbutton_toggle',
         value: function handle_addmemberbutton_toggle() {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["h" /* toggleAddMemberModal */])(this.props.id));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["j" /* toggleAddMemberModal */])(this.props.id));
         }
     }, {
         key: 'handleGroupDelete',
         value: function handleGroupDelete(e) {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["i" /* deleteGroup */])(this.props.id, ''));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["k" /* deleteGroup */])(this.props.id, ''));
         }
     }, {
         key: 'handleAddMembers',
         value: function handleAddMembers(e) {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["j" /* addMembers */])(this.props.id, this.input.value));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["l" /* addMembers */])(this.props.id, this.input.value));
         }
     }, {
         key: 'handleDeleteMembers',
         value: function handleDeleteMembers(e) {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["k" /* DeleteMembers */])(this.props.id, this.input.value));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["m" /* DeleteMembers */])(this.props.id, this.input.value));
         }
     }, {
         key: 'handleGroupClick',
@@ -20350,7 +20409,7 @@ var GroupItem = function (_React$Component) {
                 name: this.props.name,
                 usernames: this.props.usernames
             };
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["l" /* changeChatroom */])(obj, ''));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["n" /* changeChatroom */])(obj, ''));
         }
     }]);
 
@@ -20519,7 +20578,7 @@ var GroupList = function (_React$Component) {
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_reactstrap__["d" /* Input */], { type: 'text', getRef: function getRef(e) {
                                             return _this2.groupnameEL = e;
-                                        }, placeholder: 'Enter your Group Name' })
+                                        }, placeholder: '\u8ACB\u8F38\u5165\u7FA4\u7D44\u540D\u7A31' })
                                 )
                             )
                         ),
@@ -20544,12 +20603,12 @@ var GroupList = function (_React$Component) {
     }, {
         key: 'handle_addgroupbutton_toggle',
         value: function handle_addgroupbutton_toggle() {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["f" /* toggleAddGroupModal */])());
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["h" /* toggleAddGroupModal */])());
         }
     }, {
         key: 'handle_creategroup',
         value: function handle_creategroup(e) {
-            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["g" /* createGroup */])(this.groupnameEL.value, this.props.username_login, ''));
+            this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_states_group_actions_js__["i" /* createGroup */])(this.groupnameEL.value, this.props.username_login, ''));
         }
     }]);
 
@@ -20707,6 +20766,7 @@ function chatroom() {
             });
         case '@CHATROOM/CLEAR_CHATS':
             return _extends({}, state, {
+                group: {},
                 chats: []
             });
         default:
@@ -20750,7 +20810,7 @@ function chatroom_hid() {
 var initChatListState = {
 
     hiddenchatroom_open: false,
-    username_login: '哇',
+    username_login: '哈哈',
     chatlist_loading: false
 
 };
