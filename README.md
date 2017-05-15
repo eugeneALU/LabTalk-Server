@@ -1,11 +1,10 @@
 # Server code for prohect LabTalk 
 
-# ä½¿ç”¨æ–¹æ³•
-* ç›®å‰åƒ…ä¾›æ¸¬è©¦ã€‚é‹è¡Œæ–¼ locolhost:8080
+#¨Ï¥Î¤èªk
+* ¥Ø«e¶È¨Ñ´ú¸Õ¡C¹B¦æ©ó locolhost:8080
 
-1. é€²å…¥è³‡æ–™å¤¾
-2. å…ˆè¤‡è£½è‡ªå·±çš„distè³‡æ–™å¤¾é€²å» (æ³¨æ„query url è«‹å…ˆè¨­å®šæ–¼ *http://localhost:8080/api*)
-3. ä¿®æ”¹å…§éƒ¨API in ***MODEL*** & ***ROUTER*** (server.js å…ˆåˆ¥å‹•)
-4. cmd line key in "*npm install*"
-5. cmd line key in "*node src/server.js*" 
-6. æœƒæ–¼æœ¬æ©Ÿç”¢ç”Ÿ " \*.json " file å¯ä¾›é™¤éŒ¯æˆ–æª¢è¦–è³‡æ–™
+1. ¶i¤J¸ê®Æ§¨
+2. ¥ı½Æ»s¦Û¤vªºdist¸ê®Æ§¨¶i¥h
+3. ­×§ï¤º³¡API in MODEL & ROUTER (server.js ¥ı§O°Ê)
+4. cmd line key in "node src/server.js" 
+5. ·|©ó¥»¾÷²£¥Í "*.json" file ¥i¨Ñ°£¿ù©ÎÀËµø¸ê®Æ

@@ -1,6 +1,7 @@
 const express = require('express');
 
-const postRouter = require('./routers/posts.js');
+const accountRouter = require('./routers/account.js');
+const chatRouter = require('./routers/chat.js');
 const requestLogger = require('./middleware/request-logger.js');
 const errorHandler = require('./middleware/error-handler.js');
 
@@ -12,7 +13,8 @@ app.use(express.static('dist', {
         res.set('Cache-Control', 'public, s-maxage=86400');
     }
 }));
-app.use('/api', postRouter);
+app.use('/api', accountRouter);
+app.use('/api', chatRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
