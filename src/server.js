@@ -1,5 +1,5 @@
 const express = require('express');
-
+const calendarRouter = require('./routers/calendar.js');
 const accountRouter = require('./routers/account.js');
 const chatRouter = require('./routers/chat.js');
 const requestLogger = require('./middleware/request-logger.js');
@@ -15,6 +15,7 @@ app.use(express.static('dist', {
 }));
 app.use('/api', accountRouter);
 app.use('/api', chatRouter);
+app.use('/api', calendarRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
