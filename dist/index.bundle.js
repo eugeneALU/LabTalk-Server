@@ -22579,7 +22579,7 @@ function calendar() {
     switch (action.type) {
         case '@CALENDAR/TOGGLE_CALENDAR':
             return _extends({}, state, {
-                calendar: true,
+                calendar: !state.calendar,
                 toggle_schdule: true
             });
         case '@CALENDAR/TOGGLE_SCHDULE':
