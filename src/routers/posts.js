@@ -9,6 +9,10 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
+var NCRYPTO = require('n-crypto');
+var nCrypto = new NCRYPTO({
+        aes_key:'aaaaaaaaaaaaaaaa'//aes key,16 characters
+    });
 
 /****************************************************************************************/
 

@@ -30,7 +30,7 @@ function list(filterName = '',filterPassword =''){
 );
 }
 
-function create(name,password,email){
+function create(name, password, email){
   return new Promise((resolve, reject) => {
     const newAccount = {
       id: uuid(),
