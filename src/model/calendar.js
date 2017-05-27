@@ -12,7 +12,7 @@ function select_group(filterID =''){
         if(err) reject(err);
 
         let posts= data ? JSON.parse(data): [];
-        if (filterID){
+        if (filterID && posts.length > 0){
           posts = posts.filter(p =>{
             return (p.group_id.indexOf(filterID) !== -1);
           });
@@ -34,7 +34,7 @@ function create(newtitle,newtime,newdata,group_id,day){
     };
 
     select_group().then(posts => {
-      if(posts == '') {posts=[newActivity];}
+      if(posts === []) {posts=[newActivity];}
       else {posts =[newActivity, ...posts];}
     fs.writeFile('calendar.json',JSON.stringify(posts),err =>{
       if(err) reject(err);

@@ -14,14 +14,14 @@ function list(filterName = '',filterPassword =''){
         let posts= data ? JSON.parse(data): [];
         if (!filterPassword){
           posts = posts.filter(p =>{
-            return (p.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
+            return (p.name.indexOf(filterName) !== -1);
 
           });
         }
         if((posts.length > 0 && filterName)  && (posts.length > 0 && filterPassword)){
           posts = posts.filter(p =>{
-            return ((p.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1) &&
-            (p.password.toLowerCase().indexOf(filterPassword.toLowerCase()) !== -1));
+            return ((p.name.indexOf(filterName) !== -1) &&
+            (p.password.indexOf(filterPassword) !== -1));
           });
         }
         resolve(posts);
@@ -30,7 +30,7 @@ function list(filterName = '',filterPassword =''){
 );
 }
 
-function create(name,password,email){
+function create(name, password, email){
   return new Promise((resolve, reject) => {
     const newAccount = {
       id: uuid(),

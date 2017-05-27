@@ -2,7 +2,7 @@ const fs = require('fs');
 const uuid = require('uuid/v4');
 const moment = require('moment');
 
-function list(searchText = '') {
+function list(searchText = '', username) {
     return new Promise((resolve, reject) => {
         if (!fs.existsSync('data-groups.json')) {
             fs.writeFileSync('data-groups.json', '');
@@ -14,8 +14,29 @@ function list(searchText = '') {
             let groups = data ? JSON.parse(data) : [];
             if (groups.length > 0 && searchText) {
                 groups = groups.filter(p => {
-                    return p.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                    p.usernames = p.usernames.filter(e => {
+                      let exist = false;
+                      if(e.username === username){
+                        exist = true;
+                        return e
+                      }
+                    });
+                    if(exist)
+                      return p.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
                 });
+            }
+            else if (groups.length > 0){
+              groups = groups.filter(p => {
+                  let exist = false;
+                  p.usernames = p.usernames.map(e => {
+                    if(e.username === username)
+                      exist = true;
+                    return e
+
+                  });
+                  if(exist)
+                    return true
+              });
             }
             resolve(groups);
         });
@@ -31,7 +52,7 @@ function create(groupname, username) {
             usernames: [{username: username}]
         };
 
-        list().then(groups => {
+        list('',username).then(groups => {
             groups = [
                 newGroup,
                 ...groups
@@ -67,17 +88,16 @@ function get(id) {
     });
 }
 
-function addMembers(id, username) {
+function _addMembers(id, username, username_login) {
     return new Promise((resolve, reject) => {
         const newUsername = {username: username};
-        list().then(groups => {
+        list('',username_login).then(groups => {
             groups = groups.map(p => {
                 if (p.id === id) {
                     p.usernames = [
                       newUsername,
                       ...p.usernames];
                 }
-
                 return p
             });
             fs.writeFile('data-groups.json', JSON.stringify(groups), err => {
@@ -89,11 +109,29 @@ function addMembers(id, username) {
     });
 }
 
-function deleteMembers(id, username) {
+function addMembers(id, username, username_login){
+  return new Promise((resolve, reject) => {
+      check(username).then(exist => {
+          if(exist){
+            _addMembers(id, username, username_login).then(groups => {
+              resolve(groups);
+            }).catch(err => {reject(err);});
+          }
+          else {
+            resolve('no_exist');
+          }
+      }).catch(err => {reject(err);});
+  });
+}
+
+
+
+function deleteMembers(id, username, username_login) {
     return new Promise((resolve, reject) => {
 
-        list().then(groups => {
+        list('', username_login).then(groups => {
             var obj = {username: username};
+            let change = false;
             groups = groups.map(p => {
                 if (p.id === id) {
                   p.usernames = p.usernames.filter(function (item) {
@@ -101,6 +139,7 @@ function deleteMembers(id, username) {
                           return true;
                         }
                         else {
+                          change = true;
                           return false;
                         }
                     }, obj);
@@ -110,16 +149,18 @@ function deleteMembers(id, username) {
             });
             fs.writeFile('data-groups.json', JSON.stringify(groups), err => {
                 if (err) reject(err);
-
-                resolve(groups);
+                if(change)
+                  resolve(groups);
+                else
+                  resolve('no_exist');
             });
         });
     });
 }
 
-function delete_(id) {
+function delete_(id,username) {
   return new Promise((resolve, reject) => {
-      list().then(groups => {
+      list('',username).then(groups => {
           var obj = {id: id};
           groups = groups.filter(function (item) {
               if(item.id!==this.id)
@@ -132,6 +173,26 @@ function delete_(id) {
           });
       });
   });
+}
+
+function check(username) {
+    return new Promise((resolve, reject) => {
+
+        fs.readFile('data-posts.json', 'utf8', (err, data) => {
+            if (err) reject(err);
+            let exist = false;
+            let posts = data ? JSON.parse(data) : [];
+            if (posts.length > 0) {
+                posts = posts.filter(p => {
+                    if(p.name === username)
+                      return p
+                });
+            }
+            if(posts.length > 0)
+              exist = true;
+            resolve(exist);
+        });
+    });
 }
 
 module.exports = {

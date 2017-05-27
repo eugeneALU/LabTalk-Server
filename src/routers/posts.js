@@ -4,19 +4,21 @@ const bodyParser = require('body-parser');
 const groupModel = require('../model/groups.js');
 const chatroomModel = require('../model/chatroom.js');
 
+
 const router = express.Router();
 
 router.use(bodyParser.json());
 
+var NCRYPTO = require('n-crypto');
+var nCrypto = new NCRYPTO({
+        aes_key:'aaaaaaaaaaaaaaaa'//aes key,16 characters
+    });
+
+/****************************************************************************************/
+
 // List
-router.post('/groups/list', function(req, res, next) {
-    const {searchText, username} = req.body;
-    if (!username) {
-        const err = new Error('username are required');
-        err.status = 400;
-        throw err;
-    }
-    groupModel.list(searchText, username).then(groups => {
+router.get('/groups', function(req, res, next) {
+    groupModel.list(req.query.searchText).then(groups => {
         res.json(groups);
     }).catch(next);
 });
@@ -49,38 +51,38 @@ router.get('/groups/:id', function(req, res, next) {
 
 // addMembers
 router.post('/groups/members/add', function(req, res, next) {
-    const {id, username, username_login} = req.body;
-    if (!id || !username || !username_login) {
+    const {id, username} = req.body;
+    if (!id || !username) {
         const err = new Error('Name are required');
         err.status = 400;
         throw err;
     }
-    groupModel.addMembers(id, username, username_login).then(groups => {
+    groupModel.addMembers(id, username).then(groups => {
         res.json(groups);
     }).catch(next);
 });
 
 // deleteMembers
 router.post('/groups/members/delete', function(req, res, next) {
-    const {id, username, username_login} = req.body;
-    if (!id || !username || !username_login) {
+    const {id, username} = req.body;
+    if (!id || !username) {
         const err = new Error('Name are required');
         err.status = 400;
         throw err;
     }
-    groupModel.deleteMembers(id, username, username_login).then(groups => {
+    groupModel.deleteMembers(id, username).then(groups => {
         res.json(groups);
     }).catch(next);
 });
 // Delete
 router.post('/groups/delete', function(req, res, next) {
-    const {id,username} = req.body;
-    if (!id || !username) {
-        const err = new Error('GROUPID  is required');
+    const {id} = req.body;
+    if (!id) {
+        const err = new Error('GROUPID is required');
         err.status = 400;
         throw err;
     }
-    groupModel.delete_(id,username).then(group => {
+    groupModel.delete_(id).then(group => {
         res.json(group);
     }).catch(next);
 });

@@ -1,8 +1,7 @@
 const express = require('express');
-
+const calendarRouter = require('./routers/calendar.js');
 const accountRouter = require('./routers/account.js');
 const chatRouter = require('./routers/chat.js');
-const calendarRouter = require('./routers/calendar.js');
 const requestLogger = require('./middleware/request-logger.js');
 const errorHandler = require('./middleware/error-handler.js');
 
