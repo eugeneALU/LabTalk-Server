@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const accessController = require('../middleware/access-controller.js');
 const CalendarModel =require('../model/calendar.js');
 const router = express.Router();
 
 router.use(bodyParser.json());
+router.use(accessController);
 
 router.post('/createactivity',function(req,res,next){
   const {newtitle,newtime,newdata,group_id,day} = req.body;

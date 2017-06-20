@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const accessController = require('../middleware/access-controller.js');
 const groupModel = require('../model/groups.js');
 const chatroomModel = require('../model/chatroom.js');
 
@@ -8,11 +8,7 @@ const chatroomModel = require('../model/chatroom.js');
 const router = express.Router();
 
 router.use(bodyParser.json());
-
-var NCRYPTO = require('n-crypto');
-var nCrypto = new NCRYPTO({
-        aes_key:'aaaaaaaaaaaaaaaa'//aes key,16 characters
-    });
+router.use(accessController);
 
 /****************************************************************************************/
 

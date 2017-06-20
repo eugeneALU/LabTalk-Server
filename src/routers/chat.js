@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const accessController = require('../middleware/access-controller.js');
 const groupModel = require('../model/groups.js');
 const chatroomModel = require('../model/chatroom.js');
 
 const router = express.Router();
 
 router.use(bodyParser.json());
+router.use(accessController);
 
 // List
 router.post('/groups/list', function(req, res, next) {
