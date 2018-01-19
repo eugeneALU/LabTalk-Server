@@ -13,13 +13,14 @@ app.use(express.static('dist', {
         res.set('Cache-Control', 'public, s-maxage=86400');
     }
 }));
+
 app.use('/api', accountRouter);
 app.use('/api', chatRouter);
 app.use('/api', calendarRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
-const port = 8080;
+const port = 3000;
 app.listen(port, () => {
     console.log(`Server is up and running on port ${port}...`);
 });

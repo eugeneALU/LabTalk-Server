@@ -1,20 +1,10 @@
 node_modules
-
 npm-debug.log
-
 .tern-project
-
-data-*.json
-
+data-*.json calendar.json
 logs.txt
 
-
-calendar.json
-
 # Elastic Beanstalk Files
-
 .elasticbeanstalk/*
-
 !.elasticbeanstalk/*.cfg.yml
-
 !.elasticbeanstalk/*.global.yml
